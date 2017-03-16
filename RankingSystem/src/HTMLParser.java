@@ -1,5 +1,8 @@
 import java.awt.List;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -62,15 +65,19 @@ public class HTMLParser {
 		entireDoc = entireDoc.replaceAll("</tr>", "");
 		entireDoc = entireDoc.replaceAll("&nbsp;","|");
 		entireDoc = entireDoc.replaceAll("colspan=\"7\"><h5 style=\"color:#000000\">","V- ");
-		
+		entireDoc = entireDoc.replaceAll("colspan=\"5\" class=\"top\"><h3 class=\"red\">","V- ");
+		entireDoc = entireDoc.replaceAll("2016","2016 V- ");
+		entireDoc = entireDoc.replaceAll("</h3> <h4 class=\"green\">","|");
+		entireDoc = entireDoc.replaceAll("</h4> <h4 class=\"green\">", "|");
+		entireDoc = entireDoc.replaceAll("</h4><br> <b>","");
+		entireDoc = entireDoc.replaceAll("</h5>","");
 		//System.out.println(entireDoc);
 		String[] splitData = entireDoc.split("\n");
 		
 		for(int n=0; n<splitData.length; n++){
 			//System.out.println(splitData[n]);
 		}
-		
-		
+			
 		
 		System.out.println("Total Length: "+ splitData.length);
 		List condensedData = new List();
@@ -82,13 +89,29 @@ public class HTMLParser {
 					condensedData.add(splitData[j].trim());
 				
 				
-				System.out.println("PASS: "+splitData[j].trim());
+				//System.out.println("PASS: "+splitData[j].trim());
 				}
 			}else{
 				//System.out.println("FAIL: "+splitData[j]);
 			}
 		}
-		System.out.println("Hey");
-		System.out.println("Condensed Count: " + condensedData.getItemCount());
+		//System.out.println("Hey");
+		//System.out.println("Condensed Count: " + condensedData.getItemCount());
+		
+		//now were going to go through data and create an object for every player appearance
+		
+		//afterward, we will use objects to load data into the db. 
+		
+		
+		
+		try{
+			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+            String database = 
+              "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ=RankingSystem.mdb;";
+            Connection conn = DriverManager.getConnection(database, "", "");
+            Statement s = conn.createStatement();
+		}catch(Exception ex){
+			System.out.println("D'OH - DATABASE CONNECTION DID NOT WORK");
+		}
 	}
 }
