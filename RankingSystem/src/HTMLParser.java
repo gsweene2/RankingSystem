@@ -9,6 +9,7 @@ import org.jsoup.select.Elements;
 
 public class HTMLParser {
 
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Document htmlFile = null;
@@ -19,17 +20,18 @@ public class HTMLParser {
 			e.printStackTrace();
 		}
 		
-		Elements names = htmlFile.getElementsByClass("NAME");
+		//Elements names = htmlFile.getElementsByClass("NAME");
 		
 		//System.out.println("input html:"+htmlFile);
 		
-		Elements name = htmlFile.select("td");
+		//Elements name = htmlFile.select("body");
 		
-		String test = name.html();
+		//String test = name.html();
 		
 		System.out.println("----------------------------------------------------------------------------------------------------------");
 		//System.out.print(test);
 		
+		/*
 		Integer sizeArray = name.size();
 		List allElements = new List();
 		System.out.print("Size: " + sizeArray);
@@ -41,7 +43,30 @@ public class HTMLParser {
 		for(int i = 0; i<100; i++){
 			System.out.println(allElements.getItem(i));
 		}
+		*/
 		
+		String entireDoc = htmlFile.toString();
+		//System.out.println(entireDoc);
+		String[] splitData = entireDoc.split("<");
+		
+		for(int n=0; n<splitData.length; n++){
+			//System.out.println(splitData[n]);
+		}
+		
+		
+		
+		System.out.println("Total Length: "+ splitData.length);
+		List condensedData = new List();
+		
+		for(int j=0; j<splitData.length; j++){
+			if(splitData[j].contains("data-title")){
+				condensedData.add(splitData[j]);
+				
+				System.out.println(splitData[j]);
+			}
+		}
+		System.out.println("Hey");
+		System.out.println("Condensed Count: " + condensedData.getItemCount());
 	}
 
 }
