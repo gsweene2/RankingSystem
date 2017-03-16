@@ -46,8 +46,25 @@ public class HTMLParser {
 		*/
 		
 		String entireDoc = htmlFile.toString();
+		entireDoc = entireDoc.replaceAll("<span style=\"color:red\">","");
+		entireDoc = entireDoc.replaceAll("</span>","");
+		entireDoc = entireDoc.replaceAll("data-title=\"NAME\">","V- ");
+		entireDoc = entireDoc.replaceAll("data-title=\"CITY/STATE\" class=\"numeric\">","V- ");
+		entireDoc = entireDoc.replaceAll("data-title=\"COUNTRY\" class=\"hidden\">","V- ");
+		entireDoc = entireDoc.replaceAll("data-title=\"GRADYR\" class=\"numeric\" align=\"right\">","V- ");
+		entireDoc = entireDoc.replaceAll("align=\"right\" data-title=\"SCORES\" class=\"numeric\">","V- ");
+		entireDoc = entireDoc.replaceAll("align=\"right\" data-title=\"TOTAL\" class=\"numeric\">","V- ");
+		entireDoc = entireDoc.replaceAll("align=\"center\" data-title=\"PLACE\" class=\"numeric\">","V- ");
+		entireDoc = entireDoc.replaceAll("</td>","");
+		entireDoc = entireDoc.replaceAll("<td","");
+		entireDoc = entireDoc.replaceAll("<tr bgcolor=\"#e5e2e2\">", "");
+		entireDoc = entireDoc.replaceAll("<tr bgcolor=\"#ffffff\">", "");
+		entireDoc = entireDoc.replaceAll("</tr>", "");
+		entireDoc = entireDoc.replaceAll("&nbsp;","|");
+		entireDoc = entireDoc.replaceAll("colspan=\"7\"><h5 style=\"color:#000000\">","V- ");
+		
 		//System.out.println(entireDoc);
-		String[] splitData = entireDoc.split("<");
+		String[] splitData = entireDoc.split("\n");
 		
 		for(int n=0; n<splitData.length; n++){
 			//System.out.println(splitData[n]);
@@ -57,16 +74,21 @@ public class HTMLParser {
 		
 		System.out.println("Total Length: "+ splitData.length);
 		List condensedData = new List();
+		//if(splitData[j].contains(" T ") || !(splitData[j].contains("<") || splitData[j].contains(">")) || splitData[j].contains("Boys Age") || splitData[j].contains("Girls Age") || splitData[j].contains("h3")){
 		
 		for(int j=0; j<splitData.length; j++){
-			if(splitData[j].contains("data-title")){
-				condensedData.add(splitData[j]);
+			if(splitData[j].contains("V- ")){
+				if(!splitData[j].trim().equals("")){
+					condensedData.add(splitData[j].trim());
 				
-				System.out.println(splitData[j]);
+				
+				System.out.println("PASS: "+splitData[j].trim());
+				}
+			}else{
+				//System.out.println("FAIL: "+splitData[j]);
 			}
 		}
 		System.out.println("Hey");
 		System.out.println("Condensed Count: " + condensedData.getItemCount());
 	}
-
 }
